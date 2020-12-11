@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm start --prefix server",
+    "start": "cd server | node index",
     "postinstall": "npm i --prefix client | npm i --prefix server",
     "post-build": "npm run postinstall | npm run build --prefix client"
   },

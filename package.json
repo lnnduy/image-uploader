@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index"
+    "start": "node index",
+    "post-build": "cd client | npm i | npm run build"
   },
   "keywords": [],
   "author": "",

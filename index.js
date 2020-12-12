@@ -3,17 +3,15 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const os = require("os");
+const cloudinary = require("cloudinary").v2;
+const dotenv = require("dotenv");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "uploads"));
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      (Date.now() % 5) + "." + file.originalname.split(".").reverse()[0]
-    );
-  },
+dotenv.config();
+const storage = multer.diskStorage({});
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
 });
 
 const upload = multer({
@@ -30,14 +28,24 @@ app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
-app.post("/uploads", upload.single("image"), (req, res) => {
-  res.json({
-    success: true,
-    url: "/uploads/" + req.file.filename,
-  });
+app.post("/uploads", upload.single("image"), async (req, res) => {
+  try {
+    const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+      public_id: "lnnduy/image-uploads/" + (Date.now() % 5),
+      overwrite: true,
+      resource_type: "image",
+    });
+    res.json({
+      success: true,
+      url: uploadResult.url,
+    });
+  } catch (error) {
+    res.json({ success: false });
+    console.log(error);
+  }
 });
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV !== "production") {
   app.use(express.static("client/build/"));
 
   app.get("*", (req, res) => {

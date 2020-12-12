@@ -29,11 +29,9 @@ function App() {
       const url = res.data.url;
       setUploaded(true);
       setImageUrl(
-        `http://${
-          process.env.NODE_ENV === "production"
-            ? window.location.hostname
-            : "localhost:5000"
-        }${url}`
+        process.env.NODE_ENV === "production"
+          ? url
+          : `http://localhost:5000${url}`
       );
       setCopied(false);
       setUploading(false);

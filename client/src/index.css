@@ -21,6 +21,7 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 8px;
+  position: relative;
 }
 
 .container * {
@@ -200,6 +201,14 @@ body {
   color: #0f54ad;
   cursor: pointer;
   background-color: #0f54ad20;
+}
+
+.my-name {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 
 @keyframes anim {

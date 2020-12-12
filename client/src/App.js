@@ -158,6 +158,7 @@ function App() {
           </>
         )}
       </div>
+      <p className="my-name">😐 lnnduy 😑</p>
     </div>
   );
 }
